@@ -2493,7 +2493,7 @@ const MusicMixApp = () => {
           <Download size={24} className={isDarkMode ? 'text-purple-400' : 'text-purple-600'} />
           <p className={`text-4xl sm:text-5xl font-bold 
             ${isDarkMode ? 'text-purple-300' : 'text-purple-600'}`}>
-            <CountUp end={downloadCount} duration={2} separator="," />
+            <CountUp end={downloadCount}  duration={2} separator="," />
           </p>
         </div>
         <p className={`mt-2 text-sm tracking-wide 
@@ -2885,7 +2885,7 @@ const MusicMixApp = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. TD27G5H9 or 0729942447"
+                  placeholder="e.g. TD or 07"
                   className={`w-full px-4 py-3 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 focus:border-purple-500' : 'bg-white border-gray-300 focus:border-indigo-500'} focus:ring-2 focus:ring-opacity-50 focus:outline-none transition`}
                   value={transactionCode}
                   onChange={(e) => setTransactionCode(e.target.value)}
