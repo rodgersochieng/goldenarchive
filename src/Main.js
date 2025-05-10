@@ -7,7 +7,6 @@ import {
   ChevronRight, SkipBack, SkipForward, Volume2, VolumeX, Copy, Link, 
   Loader2, Check, AlertCircle, Star, Mail, MessageSquare, Youtube, Linkedin
 } from 'lucide-react';
-import CountUp from 'react-countup';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons/faYoutube';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope';
@@ -98,6 +97,19 @@ const progressInterval = useRef(null);
     },
     {
       id: 3,
+      title: "Best Of Musa Juma",
+      genre: "Rhumba",
+      duration: "4:50:05",
+      durationSecs: 4325,
+      bpm: 128,
+      date: "May 10, 2025",
+      cover: "https://res.cloudinary.com/dqmvetc5w/image/upload/v1746899675/Black_and_Orange_Modern_Music_YouTube_Thumbnail_zak6ts.png",
+      description: "🎶 Musa Juma  Playlist – The GOAT of Luo Rhumba 🎶",
+      audioUrl: "https://github.com/rodgersochieng/myaudiofiles/releases/download/v1.0/Best.of.musa.juma.mp3",
+      price: "Ksh 100"
+    },
+    {
+      id: 4,
       title: "Best of Luo Rhumba",
       genre: "Rhumba",
       duration: "7:05:45",
@@ -1171,6 +1183,7 @@ const progressInterval = useRef(null);
                     </div>
   
                     {/* Share and Download Buttons */}
+
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -1241,7 +1254,7 @@ const progressInterval = useRef(null);
               leading-relaxed px-2
               opacity-90"
           >
-            Hey, I'm a front-end dev learning the ropes of UX. I love things that feel smooth, whether it's a website, an app, or a beat. These mixes? Just me having fun and chasing that flow.
+            Hey, I'm a frontend developer learning the ropes of UX. I love things that feel smooth, whether it's a website, an app, or a beat. These mixes? Just me having fun and chasing that flow.
           </motion.p>
           
           <motion.div
@@ -1390,7 +1403,7 @@ const progressInterval = useRef(null);
         className={`text-2xl sm:text-3xl font-semibold mb-3 
           ${isDarkMode ? 'text-purple-300' : 'text-purple-700'}`}
       >
-        People Are Vibing With Golden Archive
+        People Are Loving Golden Archive
       </motion.h3>
 
       <p className={`text-sm sm:text-base max-w-lg mx-auto leading-relaxed 
