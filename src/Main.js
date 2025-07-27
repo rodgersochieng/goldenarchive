@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   Play, Pause, Download, Moon, Sun, Share2, Heart, Clock, Music, X, 
-  ChevronRight, SkipBack, SkipForward, Volume2, VolumeX, Copy, Link, 
-  Loader2, Check, AlertCircle, Star, Mail, MessageSquare, Youtube, Linkedin
+  SkipBack, SkipForward, Volume2, VolumeX, Copy, Link, 
+  Loader2, Check, AlertCircle, Star,
 } from 'lucide-react';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons/faYoutube';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
@@ -160,7 +160,7 @@ const progressInterval = useRef(null);
     },
     privacy: {
       english: [
-        { title: "1. Information We Collect", content: "- Account info (email, username)\n- Payment details\n- Usage data\n- Device information (IP address, browser type)" },
+        { title: "1. Information We May Collect", content: "\n- Payment details\n- Usage data\n" },
         { title: "2. How We Use Data", content: "- To provide our service\n- Process payments\n- Improve your experience\n- Analyze usage patterns" },
         { title: "3. Data Sharing", content: "We may share with:\n- Payment processors\n- Legal authorities when required\n- Service providers" },
         { title: "4. Security", content: "We protect your data with:\n- Encryption\n- Secure servers\n- Limited access" },
@@ -212,46 +212,54 @@ const progressInterval = useRef(null);
   const validateTransactionCode = () => {
     setIsProcessingPayment(true);
     setTransactionError('');
-    
+  
     if (window.gtag) {
       window.gtag('event', 'payment_attempt', {
         mix_title: shareForMix?.title,
         transaction_code: transactionCode
       });
     }
-
+  
     setTimeout(() => {
-      if (!transactionCode.trim()) {
+      const trimmedCode = transactionCode.trim();
+  
+      if (!trimmedCode) {
         setTransactionError('Please enter a transaction code or phone number');
         setIsProcessingPayment(false);
         return false;
       }
-      
-      if (transactionCode.trim().startsWith('TD') || transactionCode.trim().startsWith('0')) {
+  
+      // Validate if it's a transaction code starting with 2 uppercase letters
+      const isTransactionCode = /^[A-Z]{2}/.test(trimmedCode);
+  
+      // Validate if it's a valid phone number format (Kenyan style)
+      const isPhoneNumber = /^0\d{9,}$/.test(trimmedCode) || /^(\+254|254)\d{9,}$/.test(trimmedCode);
+  
+      if (isTransactionCode || isPhoneNumber) {
         setIsProcessingPayment(false);
         setDownloadPopupOpen(false);
         setSuccessPopupOpen(true);
-        
+  
         if (window.gtag) {
           window.gtag('event', 'payment_success', {
             mix_title: shareForMix?.title,
             transaction_code: transactionCode
           });
         }
-        
-        
+  
         setTimeout(() => {
           handleDownload(shareForMix.audioUrl);
         }, 1000);
-        
+  
         return true;
       } else {
-        setTransactionError('Invalid transaction code format');
+        setTransactionError('Invalid transaction code or phone number format');
         setIsProcessingPayment(false);
         return false;
       }
     }, 1500);
   };
+  
 
   // Calculate current time
   const calculateCurrentTime = () => {
@@ -645,184 +653,6 @@ const progressInterval = useRef(null);
       </motion.div>
     );
   };
-
-  
-  // const LegalNoticePopup = () => {
-  //   const [accepted, setAccepted] = useState(false);
-  
-  //   return (
-  //     <motion.div
-  //       initial={{ opacity: 0 }}
-  //       animate={{ opacity: 1 }}
-  //       exit={{ opacity: 0 }}
-  //       className="fixed inset-0 flex items-center justify-center z-50 p-4"
-  //       style={{
-  //         backgroundImage: isDarkMode 
-  //           ? "linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(76,29,149,0.85) 100%)" 
-  //           : "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(124,58,237,0.15) 100%)",
-  //         backdropFilter: "blur(12px)"
-  //       }}
-  //     >
-  //       {/* Background elements */}
-  //       <div className="absolute inset-0 z-0">
-  //         <div className={`absolute top-0 left-0 w-full h-full opacity-10 
-  //           ${isDarkMode ? 'bg-gradient-to-tr from-purple-900 via-gray-900 to-gray-900' : 'bg-gradient-to-tr from-purple-100 via-gray-100 to-white'}`}>
-  //         </div>
-          
-  //         <motion.div 
-  //           className={`absolute bottom-0 right-0 w-64 h-64 rounded-full opacity-10 
-  //             ${isDarkMode ? 'bg-purple-600' : 'bg-purple-300'}`}
-  //           animate={{
-  //             scale: [1, 1.1, 1],
-  //             x: [0, -10, 0],
-  //             y: [0, -15, 0],
-  //           }}
-  //           transition={{
-  //             duration: 18,
-  //             repeat: Infinity,
-  //             repeatType: "reverse"
-  //           }}
-  //         />
-          
-  //         <motion.div 
-  //           className={`absolute top-10 left-10 w-40 h-40 rounded-full opacity-5 
-  //             ${isDarkMode ? 'bg-indigo-500' : 'bg-indigo-200'}`}
-  //           animate={{
-  //             scale: [1, 1.2, 1],
-  //             x: [0, 20, 0],
-  //             y: [0, 10, 0],
-  //           }}
-  //           transition={{
-  //             duration: 15,
-  //             repeat: Infinity,
-  //             repeatType: "reverse"
-  //           }}
-  //         />
-  //       </div>
-  
-  //       <motion.div
-  //         initial={{ scale: 0.9, y: 20 }}
-  //         animate={{ 
-  //           scale: 1, 
-  //           y: 0,
-  //           transition: { type: "spring", stiffness: 300, damping: 25 } 
-  //         }}
-  //         className={`rounded-xl p-6 w-full max-w-2xl shadow-2xl relative z-10 backdrop-blur-sm
-  //           ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/60'}`}
-  //         style={{
-  //           boxShadow: isDarkMode 
-  //             ? "0 25px 50px -12px rgba(124, 58, 237, 0.3)" 
-  //             : "0 25px 50px -12px rgba(139, 92, 246, 0.2)"
-  //         }}
-  //       >
-  //         <div className="flex justify-between items-center mb-4">
-  //           <motion.h3 
-  //             initial={{ x: -20, opacity: 0 }}
-  //             animate={{ x: 0, opacity: 1 }}
-  //             transition={{ delay: 0.2 }}
-  //             className={`text-xl font-semibold ${isDarkMode ? 'text-purple-300' : 'text-purple-700'}`}
-  //           >
-  //             {legalNotices[language].title}
-  //           </motion.h3>
-  //           <motion.div 
-  //             initial={{ x: 20, opacity: 0 }}
-  //             animate={{ x: 0, opacity: 1 }}
-  //             transition={{ delay: 0.2 }}
-  //             className="flex space-x-2"
-  //           >
-  //             <motion.button 
-  //               whileHover={{ y: -3, scale: 1.1 }}
-  //               whileTap={{ scale: 0.95 }}
-  //               onClick={() => setLanguage(language === 'english' ? 'swahili' : 'english')}
-  //               className={`px-3 py-1 text-sm rounded-md transition-all duration-300 
-  //                 ${isDarkMode 
-  //                   ? 'bg-gray-700 hover:bg-gray-600 shadow-lg shadow-purple-900/20 text-purple-400 hover:text-purple-300' 
-  //                   : 'bg-white hover:bg-gray-50 shadow-md shadow-purple-200/50 text-purple-600 hover:text-purple-700'}`}
-  //             >
-  //               {language === 'english' ? 'Swahili' : 'English'}
-  //             </motion.button>
-  //           </motion.div>
-  //         </div>
-  
-  //         <motion.div
-  //           initial={{ opacity: 0 }}
-  //           animate={{ opacity: 1 }}
-  //           transition={{ delay: 0.3 }}
-  //           className={`p-4 rounded-lg mb-6 max-h-96 overflow-y-auto 
-  //             ${isDarkMode ? 'bg-gray-800/50 text-gray-400' : 'bg-white/60 text-gray-600'} backdrop-blur-sm shadow-sm`}
-  //           style={{
-  //             boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
-  //             borderLeft: isDarkMode 
-  //               ? "3px solid rgba(139, 92, 246, 0.5)" 
-  //               : "3px solid rgba(124, 58, 237, 0.3)"
-  //           }}
-  //         >
-  //           <p>{legalNotices[language].content}</p>
-  //         </motion.div>
-  
-  //         <div className="flex items-center mb-4">
-  //           <input
-  //             type="checkbox"
-  //             id="accept-terms"
-  //             checked={accepted}
-  //             onChange={() => setAccepted(!accepted)}
-  //             className={`mr-3 h-5 w-5 rounded focus:ring-0 focus:ring-offset-0 
-  //               ${isDarkMode 
-  //                 ? 'bg-gray-700 border-gray-600 text-purple-500' 
-  //                 : 'bg-white border-gray-300 text-purple-600'}`}
-  //           />
-  //           <label htmlFor="accept-terms" className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-  //             {language === 'english' 
-  //               ? 'I agree to the Terms of Service and Privacy Policy' 
-  //               : 'Nakubali Sheria za Huduma na Sera ya Faragha'}
-  //           </label>
-  //         </div>
-  
-  //         <motion.button
-  //           initial={{ y: 20, opacity: 0 }}
-  //           animate={{ y: 0, opacity: 1 }}
-  //           transition={{ delay: 0.4 }}
-  //           whileHover={{ 
-  //             y: -3, 
-  //             scale: 1.02,
-  //             transition: { duration: 0.3 }
-  //           }}
-  //           whileTap={{ scale: 0.95 }}
-  //           onClick={() => accepted && setShowLegalNotice(false)}
-  //           disabled={!accepted}
-  //           className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all duration-300 
-  //             ${isDarkMode 
-  //               ? accepted 
-  //                 ? 'bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-900/30' 
-  //                 : 'bg-gray-600 cursor-not-allowed'
-  //               : accepted
-  //                 ? 'bg-purple-600 hover:bg-purple-700 shadow-md shadow-purple-300/50'
-  //                 : 'bg-gray-300 cursor-not-allowed'
-  //             }`}
-  //         >
-  //           <span className="flex items-center justify-center gap-2">
-  //             {legalNotices[language].understood}
-  //             {accepted && (
-  //               <motion.span
-  //                 animate={{
-  //                   scale: [1, 1.2, 1],
-  //                   rotate: [0, 5, 0, -5, 0],
-  //                 }}
-  //                 transition={{ 
-  //                   duration: 1.5,
-  //                   repeat: Infinity, 
-  //                   repeatDelay: 3
-  //                 }}
-  //               >
-  //                 ✓
-  //               </motion.span>
-  //             )}
-  //           </span>
-  //         </motion.button>
-  //       </motion.div>
-  //     </motion.div>
-  //   );
-  // };
 
   // Terms and Privacy Popups
 
@@ -1711,7 +1541,7 @@ const progressInterval = useRef(null);
                   className={`p-4 rounded-lg flex flex-col items-center justify-center space-y-2 
                     ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`}
                 >
-                  <MessageSquare size={24} className="text-green-500" />
+                  <faWhatsapp size={24} className="text-green-500" />
                   <span>WhatsApp</span>
                 </motion.button>
 
