@@ -209,17 +209,68 @@ const progressInterval = useRef(null);
   };
 
   // Handle Transaction Code validation
+  // const validateTransactionCode = () => {
+  //   setIsProcessingPayment(true);
+  //   setTransactionError('');
+  
+  //   if (window.gtag) {
+  //     window.gtag('event', 'payment_attempt', {
+  //       mix_title: shareForMix?.title,
+  //       transaction_code: transactionCode
+  //     });
+  //   }
+  
+  //   setTimeout(() => {
+  //     const trimmedCode = transactionCode.trim();
+  
+  //     if (!trimmedCode) {
+  //       setTransactionError('Please enter a transaction code or phone number');
+  //       setIsProcessingPayment(false);
+  //       return false;
+  //     }
+  
+  //     // Validate if it's a transaction code starting with 2 uppercase letters
+  //     const isTransactionCode = /^[A-Z]{2}/.test(trimmedCode);
+  
+  //     // Validate if it's a valid phone number format (Kenyan style)
+  //     const isPhoneNumber = /^0\d{9,}$/.test(trimmedCode) || /^(\+254|254)\d{9,}$/.test(trimmedCode);
+  
+  //     if (isTransactionCode || isPhoneNumber) {
+  //       setIsProcessingPayment(false);
+  //       setDownloadPopupOpen(false);
+  //       setSuccessPopupOpen(true);
+  
+  //       if (window.gtag) {
+  //         window.gtag('event', 'payment_success', {
+  //           mix_title: shareForMix?.title,
+  //           transaction_code: transactionCode
+  //         });
+  //       }
+  
+  //       setTimeout(() => {
+  //         handleDownload(shareForMix.audioUrl);
+  //       }, 1000);
+  
+  //       return true;
+  //     } else {
+  //       setTransactionError('Invalid transaction code or phone number format');
+  //       setIsProcessingPayment(false);
+  //       return false;
+  //     }
+  //   }, 1500);
+  // };
+
   const validateTransactionCode = () => {
     setIsProcessingPayment(true);
     setTransactionError('');
-  
+    
     if (window.gtag) {
       window.gtag('event', 'payment_attempt', {
         mix_title: shareForMix?.title,
         transaction_code: transactionCode
       });
     }
-  
+    
     setTimeout(() => {
       const trimmedCode = transactionCode.trim();
   
@@ -232,8 +283,10 @@ const progressInterval = useRef(null);
       // Validate if it's a transaction code starting with 2 uppercase letters
       const isTransactionCode = /^[A-Z]{2}/.test(trimmedCode);
   
-      // Validate if it's a valid phone number format (Kenyan style)
-      const isPhoneNumber = /^0\d{9,}$/.test(trimmedCode) || /^(\+254|254)\d{9,}$/.test(trimmedCode);
+      // Validate if it's a valid phone number format (including international)
+      const isPhoneNumber = /^0\d{9,}$/.test(trimmedCode) || 
+                           /^(\+254|254)\d{9,}$/.test(trimmedCode) ||
+                           /^(\+?\d{1,4}?[-.\s]?)?(\(?\d{1,3}?\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(trimmedCode);
   
       if (isTransactionCode || isPhoneNumber) {
         setIsProcessingPayment(false);
@@ -253,7 +306,17 @@ const progressInterval = useRef(null);
   
         return true;
       } else {
-        setTransactionError('Invalid transaction code or phone number format');
+        // Provide specific error messages based on input
+        if (trimmedCode.length < 6) {
+          setTransactionError('Input is too short. Transaction codes should be at least 6 characters.');
+        } else if (/^\d+$/.test(trimmedCode)) {
+          setTransactionError('Please include your country code for international numbers (e.g., +1234567890)');
+        } else if (/^[a-zA-Z]+$/.test(trimmedCode)) {
+          setTransactionError('Transaction codes should include both letters and numbers (e.g., TD123456)');
+        } else {
+          setTransactionError('Invalid format. Please enter a valid transaction code (e.g., TD123456) or phone number with country code (e.g., +1234567890)');
+        }
+        
         setIsProcessingPayment(false);
         return false;
       }
@@ -444,17 +507,84 @@ const progressInterval = useRef(null);
   };
 
   // Copy phone number to clipboard
+  // const copyPhoneNumber = () => {
+  //   const phoneNumber = "+254 729942447";
+  //   navigator.clipboard.writeText(phoneNumber).then(() => {
+  //     toast.success("Phone number copied to clipboard!", {
+  //       position: "top-center",
+  //       autoClose: 2000,
+  //       hideProgressBar: true,
+  //     });
+  //   });
+  // };
   const copyPhoneNumber = () => {
     const phoneNumber = "+254 729942447";
     navigator.clipboard.writeText(phoneNumber).then(() => {
-      toast.success("Phone number copied to clipboard!", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+      // Create and show custom toast
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-800 text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 max-w-md';
+      toast.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-sm font-medium">Phone number copied to clipboard!</span>
+        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      `;
+      
+      // Add animation styles
+      toast.style.animation = 'toastFadeIn 0.3s ease-out forwards';
+      
+      document.body.appendChild(toast);
+      
+      // Remove toast after 2 seconds
+      setTimeout(() => {
+        if (toast.parentElement) {
+          toast.style.animation = 'toastFadeOut 0.3s ease-in forwards';
+          setTimeout(() => {
+            if (toast.parentElement) {
+              toast.parentElement.removeChild(toast);
+            }
+          }, 300);
+        }
+      }, 2000);
     });
   };
-
+  
+  // Add CSS for animations
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes toastFadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    
+    @keyframes toastFadeOut {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+    }
+  `;
+  
+  // Add styles to document head if not already added
+  if (!document.querySelector('style#toast-styles')) {
+    style.id = 'toast-styles';
+    document.head.appendChild(style);
+  }
   // Toggle mute
   const toggleMute = () => {
     audioRef.current.muted = !isMuted;
