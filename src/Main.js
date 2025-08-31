@@ -12,6 +12,7 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 /* global dataLayer */
 const initializeGoogleAnalytics = () => {
@@ -63,6 +64,7 @@ const progressInterval = useRef(null);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [language, setLanguage] = useState('english');
   const [hasMounted, setHasMounted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setHasMounted(true);
@@ -123,63 +125,177 @@ const progressInterval = useRef(null);
     }
   ];
 
-  // Legal notices in both languages
   const legalNotices = {
     english: {
-      title: "Legal Notice",
-      content: "© 2025 Golden Archive. All rights reserved. The music featured in these mixes remains the property of its original creators. These mixes represent original curation and arrangement by Golden Archive and are offered for entertainment purposes only. By purchasing, you're supporting the creative effort behind the mixing not licensing the individual tracks.",
+      title: "Intellectual Property Notice",
+      content: `© 2025 Golden Archive. All Rights Reserved.
+  
+  The music featured within these mixes remains the exclusive property of the original artists, producers, and copyright holders. Golden Archive makes no claim of ownership or licensing rights over any individual tracks used.
+  
+  The mixes provided on this platform are original compilations, arrangements, and curations created by Golden Archive for entertainment and promotional purposes only. Accessing or contributing financially to this platform does not grant you any rights, licenses, or ownership of the underlying musical works.
+  
+  By using this service, you acknowledge and agree that:
+  
+  1. All copyrights in the underlying tracks are retained by their respective owners.  
+  2. Golden Archive is not engaged in the sale, licensing, or distribution of the individual tracks.  
+  3. Any payments or contributions made to Golden Archive are solely in support of the creative effort involved in curating and arranging the mixes.
+  
+  We encourage all users to support the original artists and copyright owners by purchasing or streaming their music through authorized channels.`,
       understood: "I Understand"
     },
     swahili: {
-      title: "Taarifa ya Kisheria",
-      content: "© 2025 Golden Archive. Haki zote zimehifadhiwa. Muziki unaotolewa katika mchanganyiko huu bado ni mali ya waundishi wake asili. Mchanganyiko huu unawakilisha utayarishaji na mpangilio asili wa Golden Archive na unatolewa kwa madhumuni ya burudani pekee. Kwa kununua, unasaidia juhudi za ubunifu nyuma ya mchanganyiko na sio kukodisha nyimbo za mtu binafsi.",
+      title: "Taarifa ya Haki za Kiubunifu",
+      content: `© 2025 Golden Archive. Haki Zote Zimehifadhiwa.
+  
+  Muziki uliomo ndani ya mchanganyiko huu unabaki kuwa mali ya kipekee ya wasanii wa awali, watayarishaji na wamiliki halali wa hakimiliki. Golden Archive haitoi madai yoyote ya umiliki au haki za leseni juu ya nyimbo binafsi zilizotumika.
+  
+  Mchanganyiko uliotolewa kupitia jukwaa hili ni mkusanyiko wa kipekee, upangaji na uhariri uliofanywa na Golden Archive kwa madhumuni ya burudani na uendelezaji pekee. Kufikia au kuchangia kifedha kwenye jukwaa hili hakukupi haki, leseni, au umiliki wowote wa kazi za muziki zilizo ndani yake.
+  
+  Kwa kutumia huduma hii, unakubali na kuelewa kwamba:
+  
+  1. Haki zote za kisheria katika nyimbo binafsi zinabaki kwa wamiliki wake halali.  
+  2. Golden Archive haijihusishi na uuzaji, utoaji leseni, au usambazaji wa nyimbo binafsi.  
+  3. Malipo au michango yoyote inayotolewa kwa Golden Archive ni msaada tu kwa jitihada za ubunifu za upangaji na uhariri wa mchanganyiko.
+  
+  Tunawahimiza watumiaji wote kuwaunga mkono wasanii na wamiliki halali wa hakimiliki kwa kununua au kusikiliza muziki wao kupitia njia rasmi zilizoidhinishwa.`,
       understood: "Nimeelewa"
     }
   };
-
+  
+  
   const legalDocuments = {
     terms: {
       english: [
-        { title: "1. Acceptance of Terms", content: "By using Golden Archive, you agree to these Terms. If you disagree, please don't use our service." },
-        { title: "2. Service Description", content: "We provide curated music mixes for entertainment. Mixes contain original arrangements but may include copyrighted material owned by others." },
-        { title: "3. User Responsibilities", content: "- You must be at least 13 years old\n- Don't redistribute or sell our content\n- Keep your account secure" },
-        { title: "4. Payments", content: "- All sales are final\n- Prices may change without notice\n- Chargebacks may get your account banned" },
-        { title: "5. Copyright", content: "- Mixes are © Golden Archive\n- Original songs belong to their owners\n- Unauthorized use may lead to legal action" },
-        { title: "6. Limitations", content: "We're not responsible for:\n- Indirect damages from using our service\n- Data loss\n- Third-party content" },
-        { title: "7. Changes", content: "We may update these terms anytime. Keep using our service means you accept changes." }
+        { 
+          title: "1. Acceptance of Terms", 
+          content: "By using Golden Archive, you agree to these Terms of Service. If you do not agree, please discontinue use of our platform." 
+        },
+        { 
+          title: "2. Service Description", 
+          content: "Golden Archive provides curated music mixes for entertainment and promotional purposes only. Mixes are original arrangements created by Golden Archive but may contain copyrighted material owned by third parties." 
+        },
+        { 
+          title: "3. User Responsibilities", 
+          content: "- You must be at least 13 years old.\n- Do not redistribute, resell, or copy our content without permission.\n- Keep your account details safe and secure." 
+        },
+        
+        { 
+          title: "5. Copyright", 
+          content: "- Mixes and compilations are © Golden Archive.\n- Original songs remain the property of their respective copyright holders.\n- Unauthorized use of our mixes or the included works may result in legal action." 
+        },
+        { 
+          title: "6. Limitations of Liability", 
+          content: "Golden Archive is not responsible for:\n- Indirect or incidental damages from using our service.\n- Loss of data.\n- Content provided by third parties." 
+        },
+        { 
+          title: "7. Changes to Terms", 
+          content: "We may update these Terms at any time. Continued use of Golden Archive after changes means you accept the updated Terms." 
+        }
       ],
       swahili: [
-        { title: "1. Kukubali Sheria", content: "Kwa kutumia Golden Archive, unakubali sheria hizi. Kama hukubali, tafadhali usitumie huduma yetu." },
-        { title: "2. Maelezo ya Huduma", content: "Tunatoa mchanganyiko wa muziki kwa burudani. Mchanganyiko una mpangilio wa asili lakini unaweza kuwa na nyimbo zenye hakimiliki za wengine." },
-        { title: "3. Wajibu wa Mtumiaji", content: "- Lazima uwe na umri wa angalau miaka 13\n- Usirudishe au uuze maudhui yetu\n- Weka akaunti yako salama" },
-        { title: "4. Malipo", content: "- Mauzo yote ni ya mwisho\n- Bei zinaweza kubadilika bila taarifa\n- Kuzuia malipo kunaweza kusababisha kufungiwa kwa akaunti yako" },
-        { title: "5. Hakimiliki", content: "- Mchanganyiko ni © Golden Archive\n- Nyimbo asili ni mali ya wenyewe\n- Matumizi yasiyoidhinishwa yanaweza kusababisha hatua za kisheria" },
-        { title: "6. Vikwazo", content: "Hatujibebi kwa:\n- Madhara ya posho kutokana na kutumia huduma yetu\n- Kupoteza data\n- Maudhui ya wahusika wengine" },
-        { title: "7. Mabadiliko", content: "Tunaweza kusasisha sheria hizi wakati wowote. Kuendelea kutumia huduma yetu kunamaanisha unakubali mabadiliko." }
+        { 
+          title: "1. Kukubali Masharti", 
+          content: "Kwa kutumia Golden Archive, unakubali Masharti haya ya Huduma. Ikiwa hukubaliani, tafadhali acha kutumia jukwaa letu." 
+        },
+        { 
+          title: "2. Maelezo ya Huduma", 
+          content: "Golden Archive inatoa mchanganyiko wa muziki kwa burudani na madhumuni ya uendelezaji pekee. Mchanganyiko ni upangaji wa kipekee uliofanywa na Golden Archive lakini unaweza kujumuisha nyimbo zilizo na hakimiliki za watu wengine." 
+        },
+        { 
+          title: "3. Wajibu wa Mtumiaji", 
+          content: "- Lazima uwe na umri wa angalau miaka 13.\n- Usisambaze, kuuza tena, au kunakili maudhui yetu bila ruhusa.\n- Weka maelezo ya akaunti yako salama." 
+        },
+       
+        { 
+          title: "5. Hakimiliki", 
+          content: "- Mchanganyiko na mikusanyiko ni © Golden Archive.\n- Nyimbo asili zinabaki mali ya wamiliki wao halali.\n- Matumizi yasiyoidhinishwa ya mchanganyiko wetu au kazi zilizomo yanaweza kusababisha hatua za kisheria." 
+        },
+        { 
+          title: "6. Vikwazo vya Uwajibikaji", 
+          content: "Golden Archive haiwajibiki kwa:\n- Madhara yasiyo ya moja kwa moja kutokana na kutumia huduma yetu.\n- Kupoteza data.\n- Maudhui yanayotolewa na wahusika wengine." 
+        },
+        { 
+          title: "7. Mabadiliko ya Masharti", 
+          content: "Tunaweza kusasisha Masharti haya wakati wowote. Kuendelea kutumia Golden Archive baada ya mabadiliko kunamaanisha umekubali Masharti mapya." 
+        }
       ]
     },
     privacy: {
       english: [
-        { title: "1. Information We May Collect", content: "\n- Payment details\n- Usage data\n" },
-        { title: "2. How We Use Data", content: "- To provide our service\n- Process payments\n- Improve your experience\n- Analyze usage patterns" },
-        { title: "3. Data Sharing", content: "We may share with:\n- Payment processors\n- Legal authorities when required\n- Service providers" },
-        { title: "4. Security", content: "We protect your data with:\n- Encryption\n- Secure servers\n- Limited access" },
-        { title: "5. Your Rights", content: "You can:\n- Access your data\n- Request corrections\n- Delete your account\n- Opt-out of marketing" },
-        { title: "6. Cookies", content: "We use cookies to:\n- Remember preferences\n- Understand usage\n- Improve our service" },
-        { title: "7. Children's Privacy", content: "Not for kids under 13. We don't collect data from children." },
-        { title: "8. Policy Changes", content: "We'll notify you of important changes." },
-        { title: "9. Contact Us", content: "Email: contact@goldenarchive.com\nAddress: Nairobi, Kenya" }
+        { 
+          title: "1. Information We May Collect", 
+          content: "- Payment details (processed securely by third parties).\n- Usage data such as interactions with our service.\n- Device and technical data (e.g., IP address, browser type)." 
+        },
+        { 
+          title: "2. How We Use Data", 
+          content: "- To deliver and improve our service.\n- To process payments securely.\n- To personalize your experience.\n- To analyze usage patterns and prevent fraud." 
+        },
+        { 
+          title: "3. Data Sharing", 
+          content: "We may share your data with:\n- Trusted payment processors.\n- Legal authorities when required by law.\n- Service providers who assist in operations." 
+        },
+        { 
+          title: "4. Security", 
+          content: "We protect your data through:\n- Encryption.\n- Secure servers.\n- Restricted internal access." 
+        },
+        { 
+          title: "5. Your Rights", 
+          content: "You have the right to:\n- Access the data we hold about you.\n- Request corrections to your information.\n- Request deletion of your account.\n- Opt-out of marketing communications." 
+        },
+        { 
+          title: "6. Cookies", 
+          content: "We use cookies to:\n- Remember your preferences.\n- Understand service usage.\n- Improve user experience." 
+        },
+        { 
+          title: "7. Children's Privacy", 
+          content: "Golden Archive is not intended for children under 13. We do not knowingly collect data from minors." 
+        },
+        { 
+          title: "8. Policy Updates", 
+          content: "We may update this Privacy Policy from time to time. Significant changes will be communicated clearly on our platform." 
+        },
+        { 
+          title: "9. Contact Us", 
+          content: "For questions, email us at sirrodgers21@gmail.com or write to: Golden Archive, Nairobi, Kenya." 
+        }
       ],
       swahili: [
-        { title: "1. Taarifa Tunazokusanya", content: "- Taarifa za akaunti (barua pepe, jina la mtumiaji)\n- Maelezo ya malipo\n- Data ya matumizi\n- Taarifa za kifaa (anwani ya IP, aina ya kivinjari)" },
-        { title: "2. Matumizi ya Data", content: "- Kutoa huduma yetu\n- Kufanya malipo\n- Kuboresha uzoefu wako\n- Kuchambua mwenendo wa matumizi" },
-        { title: "3. Kugawana Data", content: "Tunaweza kugawana na:\n- Wadau wa malipo\n- Mamlaka za kisheria zinapohitajika\n- Wawekezaji wa huduma" },
-        { title: "4. Usalama", content: "Tunalinda data yako kwa:\n- Usimbaji fiche\n- Seva salama\n- Ufikiaji mdogo" },
-        { title: "5. Haki Zako", content: "Unaweza:\n- Kupata data yako\n- Kuomba marekebisho\n- Kufuta akaunti yako\n- Kujiondoa kwenye utangazaji" },
-        { title: "6. Kuki", content: "Tunatumia kuki kwa:\n- Kukumbuka mapendeleo\n- Kuelewa matumizi\n- Kuboresha huduma yetu" },
-        { title: "7. Faragha ya Watoto", content: "Sio kwa watoto chini ya miaka 13. Hatukusanyi data kutoka kwa watoto." },
-        { title: "8. Mabadiliko ya Sera", content: "Tutakujulisha kuhusu mabadiliko muhimu." },
-        { title: "9. Wasiliana Nasi", content: "Barua pepe: contact@goldenarchive.com\nAnwani: Nairobi, Kenya" }
+        { 
+          title: "1. Taarifa Tunazokusanya", 
+          content: "- Maelezo ya akaunti (mfano barua pepe, jina la mtumiaji).\n- Maelezo ya malipo (yatakayoshughulikiwa kwa usalama na wadau wa malipo).\n- Data ya matumizi ya huduma.\n- Data ya kifaa na kiufundi (mfano anwani ya IP, aina ya kivinjari)." 
+        },
+        { 
+          title: "2. Matumizi ya Data", 
+          content: "- Kutoa na kuboresha huduma yetu.\n- Kushughulikia malipo kwa usalama.\n- Kubinafsisha matumizi yako.\n- Kuchambua mwenendo wa matumizi na kuzuia udanganyifu." 
+        },
+        { 
+          title: "3. Kugawana Data", 
+          content: "Tunaweza kushiriki data yako na:\n- Wachakataji wa malipo waliotegemewa.\n- Mamlaka za kisheria inapohitajika.\n- Watoa huduma wanaosaidia katika uendeshaji." 
+        },
+        { 
+          title: "4. Usalama", 
+          content: "Tunalinda data yako kupitia:\n- Usimbaji fiche.\n- Seva salama.\n- Upatikanaji mdogo kwa wafanyakazi pekee." 
+        },
+        { 
+          title: "5. Haki Zako", 
+          content: "Una haki ya:\n- Kupata data tunayohifadhi kukuhusu.\n- Kuomba marekebisho ya taarifa zako.\n- Kuomba kufutwa kwa akaunti yako.\n- Kujiondoa kwenye mawasiliano ya kibiashara." 
+        },
+        { 
+          title: "6. Kuki", 
+          content: "Tunatumia kuki kwa:\n- Kukumbuka mapendeleo yako.\n- Kuelewa matumizi ya huduma.\n- Kuboresha uzoefu wa mtumiaji." 
+        },
+        { 
+          title: "7. Faragha ya Watoto", 
+          content: "Golden Archive haikusudiwi kwa watoto walio chini ya miaka 13. Hatukusanyi kwa makusudi data kutoka kwa watoto wadogo." 
+        },
+        { 
+          title: "8. Mabadiliko ya Sera", 
+          content: "Tunaweza kusasisha Sera hii ya Faragha mara kwa mara. Mabadiliko makubwa yatatangazwa wazi kwenye jukwaa letu." 
+        },
+        { 
+          title: "9. Wasiliana Nasi", 
+          content: "Maswali? Tupigie barua pepe kwa sirrodgers21@gmail.com au tuandikie: Golden Archive, Nairobi, Kenya." 
+        }
       ]
     }
   };
@@ -207,58 +323,6 @@ const progressInterval = useRef(null);
       },
     },
   };
-
-  // Handle Transaction Code validation
-  // const validateTransactionCode = () => {
-  //   setIsProcessingPayment(true);
-  //   setTransactionError('');
-  
-  //   if (window.gtag) {
-  //     window.gtag('event', 'payment_attempt', {
-  //       mix_title: shareForMix?.title,
-  //       transaction_code: transactionCode
-  //     });
-  //   }
-  
-  //   setTimeout(() => {
-  //     const trimmedCode = transactionCode.trim();
-  
-  //     if (!trimmedCode) {
-  //       setTransactionError('Please enter a transaction code or phone number');
-  //       setIsProcessingPayment(false);
-  //       return false;
-  //     }
-  
-  //     // Validate if it's a transaction code starting with 2 uppercase letters
-  //     const isTransactionCode = /^[A-Z]{2}/.test(trimmedCode);
-  
-  //     // Validate if it's a valid phone number format (Kenyan style)
-  //     const isPhoneNumber = /^0\d{9,}$/.test(trimmedCode) || /^(\+254|254)\d{9,}$/.test(trimmedCode);
-  
-  //     if (isTransactionCode || isPhoneNumber) {
-  //       setIsProcessingPayment(false);
-  //       setDownloadPopupOpen(false);
-  //       setSuccessPopupOpen(true);
-  
-  //       if (window.gtag) {
-  //         window.gtag('event', 'payment_success', {
-  //           mix_title: shareForMix?.title,
-  //           transaction_code: transactionCode
-  //         });
-  //       }
-  
-  //       setTimeout(() => {
-  //         handleDownload(shareForMix.audioUrl);
-  //       }, 1000);
-  
-  //       return true;
-  //     } else {
-  //       setTransactionError('Invalid transaction code or phone number format');
-  //       setIsProcessingPayment(false);
-  //       return false;
-  //     }
-  //   }, 1500);
-  // };
 
   const validateTransactionCode = () => {
     setIsProcessingPayment(true);
@@ -506,17 +570,6 @@ const progressInterval = useRef(null);
     });
   };
 
-  // Copy phone number to clipboard
-  // const copyPhoneNumber = () => {
-  //   const phoneNumber = "+254 729942447";
-  //   navigator.clipboard.writeText(phoneNumber).then(() => {
-  //     toast.success("Phone number copied to clipboard!", {
-  //       position: "top-center",
-  //       autoClose: 2000,
-  //       hideProgressBar: true,
-  //     });
-  //   });
-  // };
   const copyPhoneNumber = () => {
     const phoneNumber = "+254 729942447";
     navigator.clipboard.writeText(phoneNumber).then(() => {
@@ -1571,7 +1624,7 @@ const progressInterval = useRef(null);
                 ease: "easeOut" 
               }}
             >
-              543
+              100+
             </motion.span>
           </motion.p>
           <p className={`text-xs font-medium uppercase tracking-wide
@@ -1622,12 +1675,12 @@ const progressInterval = useRef(null);
                 ease: "easeOut" 
               }}
             >
-              4.7
+              5
             </motion.span>
           </motion.p>
           <p className={`text-xs font-medium tracking-wide
             ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Rated by <span className={`font-semibold ${isDarkMode ? 'text-purple-300' : 'text-purple-500'}`}>86+</span> fans
+            Rated by <span className={`font-semibold ${isDarkMode ? 'text-purple-300' : 'text-purple-500'}`}>1000+</span> fans
           </p>
         </motion.div>
       </div>
@@ -1996,7 +2049,7 @@ const progressInterval = useRef(null);
     </motion.div>
 
     {/* Legal */}
-    <motion.div
+    {/* <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -2033,7 +2086,78 @@ const progressInterval = useRef(null);
           Privacy Policy
         </motion.button>
       </div>
-    </motion.div>
+    </motion.div> */}
+    <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5, delay: 0.4 }}
+  className={`p-5 rounded-xl ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/60'} backdrop-blur-sm shadow-sm`}
+  whileHover={{ y: -5, transition: { duration: 0.3 } }}
+>
+  <motion.h3 
+    className={`text-lg font-semibold mb-3 ${isDarkMode ? 'text-purple-300' : 'text-purple-700'}`}
+    whileHover={{ x: 3, transition: { duration: 0.2 } }}
+  >
+    Legal
+  </motion.h3>
+
+  <div className="space-y-2">
+    {/* Terms of Service */}
+    <motion.button 
+      onClick={() => {
+        setShowTerms(true);
+        setLanguage('english');
+      }}
+      className={`block w-full text-left ${isDarkMode ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-700'}`}
+      whileHover={{ x: 3, transition: { duration: 0.2 } }}
+    >
+      Terms of Service
+    </motion.button>
+
+    <div className="block h-px bg-gray-700/30 my-2"></div>
+
+    {/* Privacy Policy */}
+    <motion.button 
+      onClick={() => {
+        setShowPrivacy(true);
+        setLanguage('english');
+      }}
+      className={`block w-full text-left ${isDarkMode ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-700'}`}
+      whileHover={{ x: 3, transition: { duration: 0.2 } }}
+    >
+      Privacy Policy
+    </motion.button>
+
+    <div className="block h-px bg-gray-700/30 my-2"></div>
+
+    {/* Request Takedown */}
+    {/* <motion.button 
+      onClick={() => {
+        setShowTakedown(true);
+        setLanguage('english');
+      }}
+      className={`block w-full text-left ${isDarkMode ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-700'}`}
+      whileHover={{ x: 3, transition: { duration: 0.2 } }}
+    >
+      Request Takedown
+    </motion.button> */}
+    <motion.button 
+  onClick={() => {
+    navigate("/takedown-request");
+  }}
+  className={`block w-full text-left ${
+    isDarkMode 
+      ? 'text-purple-400 hover:text-purple-300' 
+      : 'text-purple-600 hover:text-purple-700'
+  }`}
+  whileHover={{ x: 3, transition: { duration: 0.2 } }}
+>
+  Request Takedown
+</motion.button>
+  </div>
+</motion.div>
+
   </div>
 
   {/* Copyright */}
