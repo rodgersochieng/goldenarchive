@@ -82,7 +82,7 @@ const progressInterval = useRef(null);
       cover: "https://res.cloudinary.com/dqmvetc5w/image/upload/v1741010478/Black_Binaural_Meditation_Music_YouTube_Thumbnail_jyvvxf.png",
       description: "Best of Luo Oldies, Rhumba, & Benga  | Featuring George Ramogi, Atis Pesa, & More",
       audioUrl: "https://github.com/rodgersochieng/myaudiofiles/releases/download/v1.0/BEST.OF.LUO.OLDIES.mp3",
-      price: "Ksh 100"
+      price: "Ksh 50"
     },
     {
       id: 2,
@@ -95,7 +95,7 @@ const progressInterval = useRef(null);
       cover: "https://res.cloudinary.com/dqmvetc5w/image/upload/v1741010521/Yellow_and_Red_Bright_and_Playful_YouTube_Thumbnail_b3ou5m.png",
       description: "Luo Benga Mix | ft Dola Kabarry, Odhiambo Tusker, Osito Kalle, Kamaliza & More",
       audioUrl: "https://github.com/rodgersochieng/myaudiofiles/releases/download/v1.0/BEST.OF.LUO.OLDIES.BENGA.mp3",
-      price: "Ksh 100"
+      price: "Ksh 50"
     },
     {
       id: 3,
@@ -108,7 +108,7 @@ const progressInterval = useRef(null);
       cover: "https://res.cloudinary.com/dqmvetc5w/image/upload/v1746899675/Black_and_Orange_Modern_Music_YouTube_Thumbnail_zak6ts.png",
       description: "🎶 Musa Juma  Playlist – The GOAT of Luo Rhumba 🎶",
       audioUrl: "https://github.com/rodgersochieng/myaudiofiles/releases/download/v1.0/Best.of.musa.juma.mp3",
-      price: "Ksh 100"
+      price: "Ksh 50"
     },
     {
       id: 4,
@@ -121,7 +121,7 @@ const progressInterval = useRef(null);
       cover: "https://res.cloudinary.com/dqmvetc5w/image/upload/v1741010403/Premium_Vector___Coming_soon_stage_illuminated_with_light_spotlight_x1vmbx.jpg",
       description: "Featuring John Junior, Madanji, Mali ya Mungu & More.",
       audioUrl: "",
-      price: "Ksh 200"
+      price: "Ksh 50"
     }
   ];
 
@@ -1419,7 +1419,7 @@ const progressInterval = useRef(null);
               leading-relaxed px-2
               opacity-90"
           >
-            Hey, I'm a frontend developer learning the ropes of UX. I love things that feel smooth, whether it's a website, an app, or a beat. These mixes? Just me having fun and chasing that flow.
+            Hey, I'm a UX Designer. I love things that feel smooth, whether it's a website, an app, or a beat. These mixes? Just me having fun and chasing that flow.
           </motion.p>
           
           <motion.div
