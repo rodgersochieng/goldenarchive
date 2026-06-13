@@ -1725,7 +1725,7 @@ const progressInterval = useRef(null);
                     ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`}
                 >
                   <faWhatsapp size={24} className="text-green-500" />
-                  <span>WhatsApp</span>
+                  <span>WhatsApp share</span>
                 </motion.button>
 
                 <motion.button
