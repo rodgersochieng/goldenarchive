@@ -33,10 +33,10 @@ import { useNavigate } from "react-router-dom";
 //   }
 // };
 
-const MusicMixApp = () => {
-  useEffect(() => {
-    initializeGoogleAnalytics();
-  }, []);
+// const MusicMixApp = () => {
+//   useEffect(() => {
+//     initializeGoogleAnalytics();
+//   }, []);
 
 // Refs
 const audioRef = useRef(new Audio());
