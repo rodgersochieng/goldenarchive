@@ -15,23 +15,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 
 /* global dataLayer */
-const initializeGoogleAnalytics = () => {
-  if (typeof window !== 'undefined' && !window.GA_INITIALIZED) {
-    const script = document.createElement('script');
-    script.src = `https://www.googletagmanager.com/gtag/js?id=G-MWX7STLCVS`;
-    script.async = true;
-    document.head.appendChild(script);
+// const initializeGoogleAnalytics = () => {
+//   if (typeof window !== 'undefined' && !window.GA_INITIALIZED) {
+//     const script = document.createElement('script');
+//     script.src = `https://www.googletagmanager.com/gtag/js?id=G-MWX7STLCVS`;
+//     script.async = true;
+//     document.head.appendChild(script);
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-MWX7STLCVS');
+//     window.dataLayer = window.dataLayer || [];
+//     function gtag() {
+//       window.dataLayer.push(arguments);
+//     }
+//     gtag('js', new Date());
+//     gtag('config', 'G-MWX7STLCVS');
     
-    window.GA_INITIALIZED = true;
-  }
-};
+//     window.GA_INITIALIZED = true;
+//   }
+// };
 
 const MusicMixApp = () => {
   useEffect(() => {
@@ -671,17 +671,27 @@ const progressInterval = useRef(null);
   };
 
   // Update waveform heights dynamically
+  // useEffect(() => {
+  //   const updateWaveform = () => {
+  //     if (!isPlaying) return;
+
+  //     const newHeights = waveformHeights.map(() => Math.floor(Math.random() * 80) + 20);
+  //     setWaveformHeights(newHeights);
+  //   };
+
+  //   const interval = setInterval(updateWaveform, 200);
+  //   return () => clearInterval(interval);
+  // }, [isPlaying]);
   useEffect(() => {
-    const updateWaveform = () => {
-      if (!isPlaying) return;
-
-      const newHeights = waveformHeights.map(() => Math.floor(Math.random() * 80) + 20);
-      setWaveformHeights(newHeights);
-    };
-
-    const interval = setInterval(updateWaveform, 200);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+  const updateWaveform = () => {
+    if (!isPlaying) return;
+    setWaveformHeights(prevHeights =>           // ✅ use functional update
+      prevHeights.map(() => Math.floor(Math.random() * 80) + 20)
+    );
+  };
+  const interval = setInterval(updateWaveform, 200);
+  return () => clearInterval(interval);
+}, [isPlaying]);   // ✅ now only isPlaying is needed
 
   // Legal Notice Popup
  
